@@ -1,11 +1,10 @@
 package com.mayer.mvc.test;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 
 import org.junit.Test;
 
+import com.mayer.mvc.dao.CriteriaCustomer;
 import com.mayer.mvc.dao.CustomerDAO;
 import com.mayer.mvc.dao.impl.CustomerDAOJdbcImpl;
 import com.mayer.mvc.domain.Customer;
@@ -13,6 +12,13 @@ import com.mayer.mvc.domain.Customer;
 public class CustomerDAOJdbcImplTest {
 	
 	private CustomerDAO customerDAO = new CustomerDAOJdbcImpl();
+	
+	@Test
+	public void testGetForListWithCriteriaCustomer(){
+		CriteriaCustomer cc = new CriteriaCustomer("k", null, null);
+		List<Customer> customers = customerDAO.getForListWithCriteriaCustomer(cc);
+		System.out.println(customers);
+	}
 
 	@Test
 	public void testGetAll() {

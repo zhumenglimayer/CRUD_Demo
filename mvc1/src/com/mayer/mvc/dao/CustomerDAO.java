@@ -5,6 +5,8 @@ import java.util.List;
 import com.mayer.mvc.domain.Customer;
 
 public interface CustomerDAO {
+	public List<Customer> getForListWithCriteriaCustomer(CriteriaCustomer cc);
+	
 	public List<Customer> getAll();
 	
 	public void save(Customer customer);
