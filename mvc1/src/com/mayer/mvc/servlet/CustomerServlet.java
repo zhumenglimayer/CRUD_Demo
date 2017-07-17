@@ -65,7 +65,15 @@ public class CustomerServlet extends HttpServlet {
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 	private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("deleteCustomer");
+		String idStr = request.getParameter("id");
+		int id = 0;
+		try {
+			id = Integer.parseInt(idStr);
+			customerDAO.delete(id);
+		} catch (Exception e) {
+			
+		}
+		response.sendRedirect("query.do");
 	}
 	private void addCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("addCustomer");

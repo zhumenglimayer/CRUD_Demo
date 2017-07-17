@@ -7,6 +7,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="scripts/jquery-3.2.1.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$(".delete").click(function(){
+			var content = $(this).parent().parent().find("td:eq(1)").text();
+			var flag = confirm("确定要删除"+content+"的信息吗？");
+			return flag;
+		})
+	});
+</script>
 </head>
 <body>
 	<form action="query.do" method="post">
@@ -36,7 +46,7 @@
 			
 	%>
 	<hr>
-	<br><br>
+	<br/><br/>
 		<table border="1" cellpadding="10" cellspacing="0">
 			<tr>
 				<th>ID</th>
@@ -55,7 +65,7 @@
 					<td><%= customer.getPhone() %></td>
 					<td>
 						<a href="">UPDATE</a>
-						<a href="">DELETE</a>
+						<a href="deleteCustomer.do?id=<%=customer.getId() %>" class="delete">DELETE</a>
 					</td>
 				</tr>
 			<% 		
