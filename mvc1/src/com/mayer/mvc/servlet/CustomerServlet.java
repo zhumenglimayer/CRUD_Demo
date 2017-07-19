@@ -47,10 +47,43 @@ public class CustomerServlet extends HttpServlet {
 		}
 	}
 	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("update");
+		String forwardPath = "/error.jsp";
+		String idStr = request.getParameter("id");
+		
+		try {
+			Customer customer = customerDAO.get(Integer.parseInt(idStr));
+			if(customer != null){
+				forwardPath = "updatecustomer.jsp";
+				request.setAttribute("customer", customer);
+			}
+		} catch (Exception e) {
+			
+		}
+		request.getRequestDispatcher(forwardPath).forward(request,response);
+		
 	}
 	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("update");
+		String id = request.getParameter("id");
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String phone = request.getParameter("phone");
+		String oldname = request.getParameter("oldname");
+		
+		if(!oldname.equalsIgnoreCase(name)){
+			long count = customerDAO.getCountWithName(name);
+			
+			if(count > 0){
+				request.setAttribute("message", "用户名" + name + "已经被占用，请重新选择！");
+				request.getRequestDispatcher("/updatecustomer.jsp").forward(request, response);
+				return;
+			}
+		}
+		Customer customer =new Customer(name, address, phone);
+		customer.setId(Integer.parseInt(id));
+		customerDAO.update(customer);
+		
+		response.sendRedirect("query.do");
+		
 	}
 	private void query(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
