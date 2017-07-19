@@ -46,6 +46,9 @@ public class CustomerServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("update");
+	}
 	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("update");
 	}
@@ -76,7 +79,22 @@ public class CustomerServlet extends HttpServlet {
 		response.sendRedirect("query.do");
 	}
 	private void addCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("addCustomer");
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String phone = request.getParameter("phone");
+		
+		long count = customerDAO.getCountWithName(name);
+		
+		if(count > 0){
+			request.setAttribute("message", "用户名" + name + "已经被占用，请重新选择！");
+			request.getRequestDispatcher("/newcustomer.jsp").forward(request, response);
+			return;
+		}
+		Customer customer = new Customer(name, address, phone);
+		
+		customerDAO.save(customer);
+		
+		response.sendRedirect("success.jsp");
 	}
 
 }
